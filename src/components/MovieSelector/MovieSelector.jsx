@@ -1,15 +1,27 @@
 import React from 'react'
+import reelIcon from '../../assets/movieReel.svg'
+import popcornIcon from '../../assets/moviePopcorn.svg'
+import clapperIcon from '../../assets/movieClapperBoard.svg'
 
 const MovieSelector = () => {
   return (
-    <section>
-      <p style={{ color: 'var(--muted)' }}>
-        Select your favorite genres and we will suggest what to watch next.
-      </p>
-      {/* Placeholder: add inputs/controls later */}
-      <div style={{ marginTop: '1rem' }}>
-        <button style={{ padding: '0.6rem 1rem' }}>Get Recommendations</button>
+    <section className="homepage-hero">
+      <h1>What to watch next?</h1>
+      <div className="tile-grid">
+        <button className="tile-button" aria-label="Select reel">
+          <img src={reelIcon} alt="Movie reel" />
+          <span className="tile-plus">+</span>
+        </button>
+        <button className="tile-button" aria-label="Select popcorn">
+          <img src={popcornIcon} alt="Popcorn" />
+          <span className="tile-plus">+</span>
+        </button>
+        <button className="tile-button" aria-label="Select clapper">
+          <img src={clapperIcon} alt="Clapperboard" />
+          <span className="tile-plus">+</span>
+        </button>
       </div>
+      <button className="btn-primary">Next movie 🔍</button>
     </section>
   )
 }

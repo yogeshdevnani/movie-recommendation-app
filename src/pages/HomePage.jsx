@@ -7,7 +7,6 @@ const HomePage = () => {
     <>
       <Navbar />
       <main>
-        <h1>What Next?</h1>
         <MovieSelector />
       </main>
     </>

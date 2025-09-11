@@ -152,6 +152,12 @@ h1 {
   padding: 1rem;
 }
 
+.searchbar-hint {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
 .searchbar {
   display: flex;
   gap: 0.5rem;

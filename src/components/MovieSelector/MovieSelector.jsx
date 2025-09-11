@@ -20,11 +20,12 @@ const MovieSelector = () => {
   return (
     <section className="homepage-hero">
       {showSearch && (
-        <div className="searchbar-overlay" role="dialog" aria-modal="true">
-          <div className="searchbar-dialog">
+        <div className="searchbar-overlay" role="dialog" aria-modal="true" onClick={handleCloseSearch}>
+          <div className="searchbar-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="searchbar-hint">Press Esc or anywhere else on the screen to close the search bar.</div>
             <div className="searchbar">
               <input type="text" placeholder="Search movies, genres, actors..." autoFocus />
-              <button onClick={handleCloseSearch} aria-label="Close search">Close</button>
+              <button aria-label="Submit search">Search</button>
             </div>
           </div>
         </div>

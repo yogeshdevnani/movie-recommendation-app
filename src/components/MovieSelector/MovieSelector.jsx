@@ -115,14 +115,7 @@ const MovieSelector = () => {
       
       const requestBody = { preferences }
       
-      const backendUrl = import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND
-      const endpoint = import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT
-      
-      if (!backendUrl || !endpoint) {
-        throw new Error('Backend configuration missing')
-      }
-      
-      const response = await fetch(`${backendUrl}${endpoint}`, {
+      const response = await fetch('/api/recommendations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

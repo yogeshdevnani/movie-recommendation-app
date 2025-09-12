@@ -33,6 +33,11 @@ export default defineConfig({
             return incoming
           }
         }
+      },
+      '/api/recommendations': {
+        target: process.env.MOVIE_RECOMMEND_BACKEND,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/recommendations/, process.env.MOVIE_RECOMMEND_BACKEND_ENDPOINT || '/recommendations')
       }
     }
   }

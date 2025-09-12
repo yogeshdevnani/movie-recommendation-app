@@ -13,6 +13,8 @@ const MovieSelector = () => {
   const [results, setResults] = React.useState([])
   const [selectedTiles, setSelectedTiles] = React.useState([null, null, null])
   const [selectedMovies, setSelectedMovies] = React.useState([])
+  const [isRecommendationLoading, setIsRecommendationLoading] = React.useState(false)
+  const [recommendationError, setRecommendationError] = React.useState('')
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -90,6 +92,59 @@ const MovieSelector = () => {
     setError('')
   }
 
+  const handleFindNextMovie = async () => {
+    if (selectedMovies.length < 2) return
+    
+    setIsRecommendationLoading(true)
+    setRecommendationError('')
+    
+    try {
+      // Build preferences array with ranking based on tile order
+      const preferences = selectedTiles
+        .map((tile, index) => {
+          if (!tile) return null
+          return {
+            ranking: (index + 1).toString(),
+            Title: tile.Title,
+            Year: tile.Year,
+            imdbID: tile.imdbID,
+            Type: tile.Type || 'movie'
+          }
+        })
+        .filter(Boolean) // Remove null entries
+      
+      const requestBody = { preferences }
+      
+      const backendUrl = import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND
+      const endpoint = import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT
+      
+      if (!backendUrl || !endpoint) {
+        throw new Error('Backend configuration missing')
+      }
+      
+      const response = await fetch(`${backendUrl}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      })
+      
+      if (!response.ok) {
+        throw new Error(`Backend error: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      console.log('Recommendation response:', data)
+      // TODO: Handle recommendation results
+      
+    } catch (error) {
+      setRecommendationError(error.message || 'Failed to get recommendations')
+    } finally {
+      setIsRecommendationLoading(false)
+    }
+  }
+
 
   return (
     <section className="homepage-hero">
@@ -164,14 +219,20 @@ const MovieSelector = () => {
       <div className="button-container">
         <button 
           className={`btn-primary ${selectedMovies.length < 2 ? 'disabled' : ''}`}
-          disabled={selectedMovies.length < 2}
+          disabled={selectedMovies.length < 2 || isRecommendationLoading}
+          onClick={handleFindNextMovie}
           title={selectedMovies.length < 2 ? 'Pick at least 2 movies to find your next similar movie' : ''}
         >
-          Find me next movie 🔍
+          {isRecommendationLoading ? 'Finding recommendations...' : 'Find me next movie 🔍'}
         </button>
         {selectedMovies.length < 2 && (
           <div className="button-message">
             Select at least 2 movies to find your next similar movie
+          </div>
+        )}
+        {recommendationError && (
+          <div className="button-message" style={{ color: '#ff8a8a' }}>
+            {recommendationError}
           </div>
         )}
       </div>

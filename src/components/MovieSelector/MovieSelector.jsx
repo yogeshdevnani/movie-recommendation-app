@@ -13,7 +13,6 @@ const MovieSelector = () => {
   const [results, setResults] = React.useState([])
   const [selectedTiles, setSelectedTiles] = React.useState([null, null, null])
   const [selectedMovies, setSelectedMovies] = React.useState([])
-  const [showTooltip, setShowTooltip] = React.useState(false)
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -91,12 +90,6 @@ const MovieSelector = () => {
     setError('')
   }
 
-  const handleButtonClick = () => {
-    if (selectedMovies.length < 2) {
-      setShowTooltip(true)
-      setTimeout(() => setShowTooltip(false), 2000)
-    }
-  }
 
   return (
     <section className="homepage-hero">
@@ -172,15 +165,13 @@ const MovieSelector = () => {
         <button 
           className={`btn-primary ${selectedMovies.length < 2 ? 'disabled' : ''}`}
           disabled={selectedMovies.length < 2}
-          onClick={handleButtonClick}
-          onMouseEnter={() => selectedMovies.length < 2 && setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
+          title={selectedMovies.length < 2 ? 'Pick at least 2 movies to find your next similar movie' : ''}
         >
           Find me next movie 🔍
         </button>
-        {showTooltip && selectedMovies.length < 2 && (
-          <div className="tooltip">
-            Pick at least 2 movies to find your next similar movie
+        {selectedMovies.length < 2 && (
+          <div className="button-message">
+            Select at least 2 movies to find your next similar movie
           </div>
         )}
       </div>

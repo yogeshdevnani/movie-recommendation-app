@@ -2,6 +2,7 @@ import React from 'react'
 import reelIcon from '../../assets/movieReel.svg'
 import popcornIcon from '../../assets/moviePopcorn.svg'
 import clapperIcon from '../../assets/movieClapperBoard.svg'
+import posterNotAvailable from '../../assets/posterNotAvailable.jpg'
 
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false)
@@ -107,9 +108,9 @@ const MovieSelector = () => {
                     <div className="poster-card" key={item.imdbID} onClick={() => handleSelectMovie(item)} style={{ cursor: 'pointer' }}>
                       <div className="poster-wrap">
                         {item.Poster && item.Poster !== 'N/A' ? (
-                          <img src={item.Poster} alt={`Poster of ${item.Title}`} />
+                          <img src={item.Poster} alt={`Poster of ${item.Title}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = posterNotAvailable }} />
                         ) : (
-                          <div className="poster-fallback">No Image</div>
+                          <img src={posterNotAvailable} alt="Poster not available" />
                         )}
                       </div>
                       <div className="poster-meta">
@@ -134,14 +135,16 @@ const MovieSelector = () => {
             { img: clapperIcon, alt: 'Clapperboard' }
           ]
           return (
-            <button key={idx} className="tile-button" aria-label={`Select tile ${idx + 1}`} onClick={() => handleOpenSearch(idx)}>
+            <button key={idx} className={`tile-button${selected ? ' selected' : ''}`} aria-label={`Select tile ${idx + 1}`} onClick={() => handleOpenSearch(idx)}>
               {selected ? (
                 <div className="tile-selected">
-                  {selected.Poster && selected.Poster !== 'N/A' ? (
-                    <img src={selected.Poster} alt={`Poster of ${selected.Title}`} />
-                  ) : (
-                    <div className="poster-fallback">No Image</div>
-                  )}
+                  <div className="tile-poster-wrap">
+                    {selected.Poster && selected.Poster !== 'N/A' ? (
+                      <img src={selected.Poster} alt={`Poster of ${selected.Title}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = posterNotAvailable }} />
+                    ) : (
+                      <img src={posterNotAvailable} alt="Poster not available" />
+                    )}
+                  </div>
                   <div className="tile-selected-meta">
                     <div className="tile-selected-title">{selected.Title}</div>
                     <div className="tile-selected-year">Year: {selected.Year}</div>

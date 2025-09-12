@@ -130,6 +130,11 @@ h1 {
   transform: translateY(-2px) scale(0.99);
 }
 
+.tile-button.selected {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
 /* Search modal */
 .searchbar-overlay {
   position: fixed;
@@ -251,4 +256,42 @@ h1 {
 .poster-year {
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+/* Selected tile content */
+.tile-selected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0.4rem;
+}
+
+.tile-poster-wrap {
+  width: 100%;
+  height: 130px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.tile-poster-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tile-selected-meta {
+  margin-top: 0.4rem;
+  text-align: center;
+}
+
+.tile-button.selected .tile-selected-title,
+.tile-button.selected .tile-selected-year {
+  color: #111111;
+}
+
+.tile-button.selected .tile-selected-title {
+  font-weight: 700;
 }

@@ -5,6 +5,10 @@ import clapperIcon from '../../assets/movieClapperBoard.svg'
 
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false)
+  const [query, setQuery] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState('')
+  const [results, setResults] = React.useState([])
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -17,6 +21,40 @@ const MovieSelector = () => {
   const handleOpenSearch = () => setShowSearch(true)
   const handleCloseSearch = () => setShowSearch(false)
 
+  const buildSearchParam = (text) => {
+    return text.trim().split(/\s+/).join('+')
+  }
+
+  const performSearch = async () => {
+    const trimmed = query.trim()
+    if (!trimmed) return
+    setIsLoading(true)
+    setError('')
+    setResults([])
+    try {
+      const s = buildSearchParam(trimmed)
+      const resp = await fetch(`/api/omdb/?s=${encodeURIComponent(s)}`)
+      if (!resp.ok) {
+        let apiErr = 'Network error'
+        try {
+          const errJson = await resp.json()
+          if (errJson && errJson.Error) apiErr = errJson.Error
+        } catch (_) {}
+        throw new Error(apiErr)
+      }
+      const data = await resp.json()
+      if (data.Response === 'True' && Array.isArray(data.Search)) {
+        setResults(data.Search)
+      } else {
+        setError(data.Error || 'No results found')
+      }
+    } catch (e) {
+      setError(e?.message || 'Failed to fetch movies')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <section className="homepage-hero">
       {showSearch && (
@@ -24,9 +62,31 @@ const MovieSelector = () => {
           <div className="searchbar-dialog" onClick={(e) => e.stopPropagation()}>
             <div className="searchbar-hint">Press Esc or anywhere else on the screen to close the search bar.</div>
             <div className="searchbar">
-              <input type="text" placeholder="Search movies, genres, actors..." autoFocus />
-              <button aria-label="Submit search">Search</button>
+              <input type="text" placeholder="Search movies, genres, actors..." autoFocus value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') performSearch() }} />
+              <button aria-label="Submit search" onClick={performSearch} disabled={isLoading}>{isLoading ? 'Searching...' : 'Search'}</button>
             </div>
+            {error && <div style={{ color: '#ff8a8a', marginTop: '0.5rem' }}>{error}</div>}
+            {results.length > 0 && (
+              <div style={{ marginTop: '1rem' }}>
+                <div className="poster-grid">
+                  {results.map((item) => (
+                    <div className="poster-card" key={item.imdbID}>
+                      <div className="poster-wrap">
+                        {item.Poster && item.Poster !== 'N/A' ? (
+                          <img src={item.Poster} alt={`Poster of ${item.Title}`} />
+                        ) : (
+                          <div className="poster-fallback">No Image</div>
+                        )}
+                      </div>
+                      <div className="poster-meta">
+                        <div className="poster-title">{item.Title}</div>
+                        <div className="poster-year">Year: {item.Year}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

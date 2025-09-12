@@ -3,6 +3,7 @@ import reelIcon from '../../assets/movieReel.svg'
 import popcornIcon from '../../assets/moviePopcorn.svg'
 import clapperIcon from '../../assets/movieClapperBoard.svg'
 import posterNotAvailable from '../../assets/posterNotAvailable.jpg'
+import MovieRecommendation from '../MovieRecommendation/MovieRecommendation'
 
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false)
@@ -15,6 +16,7 @@ const MovieSelector = () => {
   const [selectedMovies, setSelectedMovies] = React.useState([])
   const [isRecommendationLoading, setIsRecommendationLoading] = React.useState(false)
   const [recommendationError, setRecommendationError] = React.useState('')
+  const [recommendations, setRecommendations] = React.useState([])
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -129,7 +131,12 @@ const MovieSelector = () => {
       
       const data = await response.json()
       console.log('Recommendation response:', data)
-      // TODO: Handle recommendation results
+      
+      if (data.response && data.response.recommendations) {
+        setRecommendations(data.response.recommendations)
+      } else {
+        throw new Error('Invalid response format')
+      }
       
     } catch (error) {
       setRecommendationError(error.message || 'Failed to get recommendations')
@@ -229,6 +236,17 @@ const MovieSelector = () => {
           </div>
         )}
       </div>
+      
+      {recommendations.length > 0 && (
+        <div className="recommendations-section">
+          <h2 className="recommendations-title">Your Movie Recommendations</h2>
+          <div className="recommendations-container">
+            {recommendations.map((movie, index) => (
+              <MovieRecommendation key={index} movie={movie} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

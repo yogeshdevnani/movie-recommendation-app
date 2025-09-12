@@ -5,10 +5,13 @@ import clapperIcon from '../../assets/movieClapperBoard.svg'
 
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false)
+  const [activeTileIndex, setActiveTileIndex] = React.useState(null)
   const [query, setQuery] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState('')
   const [results, setResults] = React.useState([])
+  const [selectedTiles, setSelectedTiles] = React.useState([null, null, null])
+  const [selectedMovies, setSelectedMovies] = React.useState([])
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -18,7 +21,10 @@ const MovieSelector = () => {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  const handleOpenSearch = () => setShowSearch(true)
+  const handleOpenSearch = (index) => {
+    setActiveTileIndex(index)
+    setShowSearch(true)
+  }
   const handleCloseSearch = () => setShowSearch(false)
 
   const buildSearchParam = (text) => {
@@ -55,6 +61,34 @@ const MovieSelector = () => {
     }
   }
 
+  const handleSelectMovie = (item) => {
+    if (activeTileIndex == null) return
+    setSelectedTiles((prev) => {
+      const next = [...prev]
+      next[activeTileIndex] = item
+      return next
+    })
+    setSelectedMovies((prev) => {
+      const minimal = {
+        Title: item.Title,
+        Year: item.Year,
+        imdbID: item.imdbID,
+        type: (item.Type || '').toLowerCase()
+      }
+      const existingIndex = prev.findIndex((m) => m.imdbID === minimal.imdbID)
+      if (existingIndex !== -1) {
+        const next = [...prev]
+        next[existingIndex] = minimal
+        return next
+      }
+      return [...prev, minimal]
+    })
+    setShowSearch(false)
+    setQuery('')
+    setResults([])
+    setError('')
+  }
+
   return (
     <section className="homepage-hero">
       {showSearch && (
@@ -70,7 +104,7 @@ const MovieSelector = () => {
               <div style={{ marginTop: '1rem' }}>
                 <div className="poster-grid">
                   {results.map((item) => (
-                    <div className="poster-card" key={item.imdbID}>
+                    <div className="poster-card" key={item.imdbID} onClick={() => handleSelectMovie(item)} style={{ cursor: 'pointer' }}>
                       <div className="poster-wrap">
                         {item.Poster && item.Poster !== 'N/A' ? (
                           <img src={item.Poster} alt={`Poster of ${item.Title}`} />
@@ -92,18 +126,36 @@ const MovieSelector = () => {
       )}
       <h1>What to watch next?</h1>
       <div className="tile-grid">
-        <button className="tile-button" aria-label="Select reel" onClick={handleOpenSearch}>
-          <img src={reelIcon} alt="Movie reel" />
-          <span className="tile-plus">+</span>
-        </button>
-        <button className="tile-button" aria-label="Select popcorn" onClick={handleOpenSearch}>
-          <img src={popcornIcon} alt="Popcorn" />
-          <span className="tile-plus">+</span>
-        </button>
-        <button className="tile-button" aria-label="Select clapper" onClick={handleOpenSearch}>
-          <img src={clapperIcon} alt="Clapperboard" />
-          <span className="tile-plus">+</span>
-        </button>
+        {[0, 1, 2].map((idx) => {
+          const selected = selectedTiles[idx]
+          const defaults = [
+            { img: reelIcon, alt: 'Movie reel' },
+            { img: popcornIcon, alt: 'Popcorn' },
+            { img: clapperIcon, alt: 'Clapperboard' }
+          ]
+          return (
+            <button key={idx} className="tile-button" aria-label={`Select tile ${idx + 1}`} onClick={() => handleOpenSearch(idx)}>
+              {selected ? (
+                <div className="tile-selected">
+                  {selected.Poster && selected.Poster !== 'N/A' ? (
+                    <img src={selected.Poster} alt={`Poster of ${selected.Title}`} />
+                  ) : (
+                    <div className="poster-fallback">No Image</div>
+                  )}
+                  <div className="tile-selected-meta">
+                    <div className="tile-selected-title">{selected.Title}</div>
+                    <div className="tile-selected-year">Year: {selected.Year}</div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <img src={defaults[idx].img} alt={defaults[idx].alt} />
+                  <span className="tile-plus">+</span>
+                </>
+              )}
+            </button>
+          )
+        })}
       </div>
       <button className="btn-primary">Next movie 🔍</button>
     </section>

@@ -33,7 +33,7 @@ const MovieSelector = () => {
     setResults([])
     try {
       const s = buildSearchParam(trimmed)
-      const resp = await fetch(`/api/omdb/?s=${encodeURIComponent(s)}`)
+      const resp = await fetch(`/api/omdb/?s=${encodeURIComponent(s)}&type=movie`)
       if (!resp.ok) {
         let apiErr = 'Network error'
         try {

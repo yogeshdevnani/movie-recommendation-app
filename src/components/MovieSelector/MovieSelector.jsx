@@ -53,7 +53,7 @@ const MovieSelector = () => {
       if (data.Response === 'True' && Array.isArray(data.Search)) {
         setResults(data.Search)
       } else {
-        setError(data.Error || 'No results found')
+        setError('Movie not found!\nMake sure to enter complete words: example "Die Hard" not "Die Har"')
       }
     } catch (e) {
       setError(e?.message || 'Failed to fetch movies')
@@ -101,7 +101,7 @@ const MovieSelector = () => {
               <input type="text" placeholder="Search movies, genres, actors..." autoFocus value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') performSearch() }} />
               <button aria-label="Submit search" onClick={performSearch} disabled={isLoading}>{isLoading ? 'Searching...' : 'Search'}</button>
             </div>
-            {error && <div style={{ color: '#ff8a8a', marginTop: '0.5rem' }}>{error}</div>}
+            {error && <div style={{ color: '#ff8a8a', marginTop: '0.5rem', whiteSpace: 'pre-line' }}>{error}</div>}
             {results.length > 0 && (
               <div style={{ marginTop: '1rem' }}>
                 <div className="poster-grid">

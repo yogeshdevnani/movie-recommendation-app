@@ -8,6 +8,13 @@ import MovieRecommendation from "../MovieRecommendation/MovieRecommendation";
 import InfoCard from "../InfoCard/InfoCard";
 import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
 
+// Import environment variables
+const MOVIE_RECOMMEND_BACKEND = import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND;
+const MOVIE_FETCH_BACKEND_ENDPOINT = import.meta.env
+  .VITE_MOVIE_FETCH_BACKEND_ENDPOINT;
+const MOVIE_RECOMMEND_BACKEND_ENDPOINT = import.meta.env
+  .VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT;
+
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false);
   const [activeTileIndex, setActiveTileIndex] = React.useState(null);
@@ -48,9 +55,7 @@ const MovieSelector = () => {
     setResults([]);
     try {
       const baseUrl =
-        import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND +
-        "/" +
-        import.meta.env.VITE_MOVIE_FETCH_BACKEND_ENDPOINT;
+        MOVIE_RECOMMEND_BACKEND + "/" + MOVIE_FETCH_BACKEND_ENDPOINT;
 
       // Format URL with query parameters
       const searchTerm = buildSearchParam(trimmed);
@@ -157,7 +162,10 @@ const MovieSelector = () => {
 
       const requestBody = { preferences };
 
-      const response = await fetch("/api/recommendations", {
+      const backendUrl =
+        MOVIE_RECOMMEND_BACKEND + "/" + MOVIE_RECOMMEND_BACKEND_ENDPOINT;
+
+      const response = await fetch(backendUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -172,8 +180,8 @@ const MovieSelector = () => {
       const data = await response.json();
       console.log("Recommendation response:", data);
 
-      if (data.response && data.response.recommendations) {
-        setRecommendations(data.response.recommendations);
+      if (data && Array.isArray(data.recommendations)) {
+        setRecommendations(data.recommendations);
       } else {
         throw new Error("Invalid response format");
       }

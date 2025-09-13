@@ -3,6 +3,7 @@ import reelIcon from '../../assets/movieReel.svg'
 import popcornIcon from '../../assets/moviePopcorn.svg'
 import clapperIcon from '../../assets/movieClapperBoard.svg'
 import posterNotAvailable from '../../assets/posterNotAvailable.jpg'
+import moviesLikeTheseLogo from '../../assets/moviesLikeTheseLogo.png'
 import MovieRecommendation from '../MovieRecommendation/MovieRecommendation'
 import InfoCard from '../InfoCard/InfoCard'
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation'
@@ -206,7 +207,9 @@ const MovieSelector = () => {
           </div>
         </div>
       )}
-      <h1>What to watch next?</h1>
+      <div className="logo-container">
+        <img src={moviesLikeTheseLogo} alt="Movies Like These" className="main-logo" />
+      </div>
       <div className="tile-grid">
         {[0, 1, 2].map((idx) => {
           const selected = selectedTiles[idx]

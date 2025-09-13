@@ -57,6 +57,19 @@ h1 {
   margin-left: 1rem;
 }
 
+.navbar-title {
+  color: #ff5f5f !important;
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navbar-title:hover {
+  color: #ff7a7a !important;
+  text-decoration: none;
+}
+
 /* Buttons */
 .btn-about {
   background: #ff5f5f;
@@ -111,6 +124,26 @@ h1 {
 
 .homepage-hero h1 {
   font-size: 2.925rem;
+}
+
+/* Main Logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.main-logo {
+  max-height: 120px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.main-logo:hover {
+  transform: scale(1.05);
 }
 
 /* Info Card */

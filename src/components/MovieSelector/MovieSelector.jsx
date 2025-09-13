@@ -179,7 +179,7 @@ const MovieSelector = () => {
           <div className="searchbar-dialog" onClick={(e) => e.stopPropagation()}>
             <div className="searchbar-hint">Press Esc or anywhere else on the screen to close the search bar.</div>
             <div className="searchbar">
-              <input type="text" placeholder="Search movies, genres, actors..." autoFocus value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') performSearch() }} />
+              <input type="text" placeholder="Search movies - Use complete words" autoFocus value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') performSearch() }} />
               <button aria-label="Submit search" onClick={performSearch} disabled={isLoading}>{isLoading ? 'Searching...' : 'Search'}</button>
             </div>
             {error && <div style={{ color: '#ff8a8a', marginTop: '0.5rem', whiteSpace: 'pre-line' }}>{error}</div>}

@@ -355,7 +355,12 @@ h1 {
 /* Recommendations section */
 .recommendations-section {
   margin-top: 3rem;
-  width: 100%;
+  width: 130%;
+  max-width: 130%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  left: -15%;
 }
 
 .recommendations-title {
@@ -462,4 +467,9 @@ h1 {
 .movie-reason,
 .movie-plot {
   margin-bottom: 0.25rem;
+}
+
+.movie-reason {
+  font-weight: bold;
+  font-size: 1.1rem;
 }

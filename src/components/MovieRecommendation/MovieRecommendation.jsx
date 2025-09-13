@@ -32,7 +32,7 @@ const MovieRecommendation = ({ movie }) => {
       </div>
       <div className="movie-details">
         <h3 className="movie-title">{movie.Title}</h3>
-        <p className="movie-year">Year Release: {movie.Year}</p>
+        <p className="movie-year">Release Year: {movie.Year}</p>
         <p className="movie-preference">Preference: {movie.ranking}</p>
         <p className="movie-certainty">Will you love it?: {movie.CertaintyLevel}</p>
         <p className="movie-reason">Why to watch this?: {movie.ReasonToBeLoved}</p>

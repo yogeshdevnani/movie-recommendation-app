@@ -258,7 +258,7 @@ const MovieSelector = () => {
           onClick={handleFindNextMovie}
           title={selectedMovies.length < 2 ? 'Pick at least 2 movies to find your next similar movie' : ''}
         >
-          {isRecommendationLoading ? 'Finding recommendations...' : 'Find me next movie 🔍'}
+          {isRecommendationLoading ? 'Finding recommendations...' : '🍿 Pick For Me'}
         </button>
         {selectedMovies.length < 2 && (
           <div className="button-message">

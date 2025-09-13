@@ -180,8 +180,12 @@ const MovieSelector = () => {
       const data = await response.json();
       console.log("Recommendation response:", data);
 
-      if (data && Array.isArray(data.recommendations)) {
-        setRecommendations(data.recommendations);
+      if (
+        data &&
+        data.response &&
+        Array.isArray(data.response.recommendations)
+      ) {
+        setRecommendations(data.response.recommendations);
       } else {
         throw new Error("Invalid response format");
       }

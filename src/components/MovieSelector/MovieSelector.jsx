@@ -4,6 +4,7 @@ import popcornIcon from '../../assets/moviePopcorn.svg'
 import clapperIcon from '../../assets/movieClapperBoard.svg'
 import posterNotAvailable from '../../assets/posterNotAvailable.jpg'
 import MovieRecommendation from '../MovieRecommendation/MovieRecommendation'
+import InfoCard from '../InfoCard/InfoCard'
 
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false)
@@ -170,6 +171,7 @@ const MovieSelector = () => {
 
   return (
     <section className="homepage-hero">
+      <InfoCard />
       {showSearch && (
         <div className="searchbar-overlay" role="dialog" aria-modal="true" onClick={handleCloseSearch}>
           <div className="searchbar-dialog" onClick={(e) => e.stopPropagation()}>

@@ -113,6 +113,111 @@ h1 {
   font-size: 2.925rem;
 }
 
+/* Info Card */
+.info-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideInDown 0.4s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+.info-card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+}
+
+.info-card-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(56, 189, 248, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.info-card-text {
+  flex: 1;
+}
+
+.info-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text);
+}
+
+.info-card-message {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--muted);
+}
+
+.info-card-close {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.info-card-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+  transform: scale(1.1);
+}
+
+.info-card-close:active {
+  transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-card.dismissing {
+  animation: slideOutUp 0.3s ease-in forwards;
+}
+
+@keyframes slideOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
 .tile-grid {
   display: flex;
   gap: 2.6rem;

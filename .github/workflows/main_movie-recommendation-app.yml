@@ -28,6 +28,10 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+        env:
+          VITE_MOVIE_RECOMMEND_BACKEND: ${{ secrets.VITE_MOVIE_RECOMMEND_BACKEND }}
+          VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT: ${{ secrets.VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT }}
+          VITE_MOVIE_FETCH_BACKEND_ENDPOINT: ${{ secrets.VITE_MOVIE_FETCH_BACKEND_ENDPOINT }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

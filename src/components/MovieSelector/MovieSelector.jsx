@@ -5,6 +5,7 @@ import clapperIcon from '../../assets/movieClapperBoard.svg'
 import posterNotAvailable from '../../assets/posterNotAvailable.jpg'
 import MovieRecommendation from '../MovieRecommendation/MovieRecommendation'
 import InfoCard from '../InfoCard/InfoCard'
+import LoadingAnimation from '../LoadingAnimation/LoadingAnimation'
 
 const MovieSelector = () => {
   const [showSearch, setShowSearch] = React.useState(false)
@@ -269,6 +270,7 @@ const MovieSelector = () => {
             {recommendationError}
           </div>
         )}
+        <LoadingAnimation isVisible={isRecommendationLoading} />
       </div>
       
       {recommendations.length > 0 && (

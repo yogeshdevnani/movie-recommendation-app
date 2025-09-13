@@ -372,28 +372,9 @@ h1 {
 }
 
 .recommendations-container {
-  max-height: 70vh;
-  overflow-y: auto;
   padding-right: 0.5rem;
 }
 
-.recommendations-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.recommendations-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
-
-.recommendations-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-}
-
-.recommendations-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
 
 /* Individual movie recommendation */
 .movie-recommendation {

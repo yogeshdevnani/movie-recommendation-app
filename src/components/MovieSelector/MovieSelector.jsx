@@ -94,6 +94,28 @@ const MovieSelector = () => {
     setError('')
   }
 
+  const handleRemoveMovie = (index) => {
+    const removedMovie = selectedTiles[index]
+    
+    setSelectedTiles((prev) => {
+      const next = [...prev]
+      next[index] = null
+      // Shift remaining movies to fill the gap
+      for (let i = index; i < next.length - 1; i++) {
+        next[i] = next[i + 1]
+      }
+      next[next.length - 1] = null
+      return next
+    })
+    
+    if (removedMovie) {
+      setSelectedMovies((prev) => {
+        // Remove the movie from selectedMovies array
+        return prev.filter(movie => movie.imdbID !== removedMovie.imdbID)
+      })
+    }
+  }
+
   const handleFindNextMovie = async () => {
     if (selectedMovies.length < 2) return
     
@@ -194,6 +216,16 @@ const MovieSelector = () => {
             <button key={idx} className={`tile-button${selected ? ' selected' : ''}`} aria-label={`Select tile ${idx + 1}`} onClick={() => handleOpenSearch(idx)}>
               {selected ? (
                 <div className="tile-selected">
+                  <button 
+                    className="tile-remove-button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleRemoveMovie(idx)
+                    }}
+                    aria-label={`Remove ${selected.Title}`}
+                  >
+                    ×
+                  </button>
                   <div className="tile-poster-wrap">
                     {selected.Poster && selected.Poster !== 'N/A' ? (
                       <img src={selected.Poster} alt={`Poster of ${selected.Title}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = posterNotAvailable }} />

@@ -290,6 +290,7 @@ h1 {
   align-items: center;
   width: 100%;
   padding: 0.4rem;
+  position: relative;
 }
 
 .tile-poster-wrap {
@@ -319,6 +320,36 @@ h1 {
 
 .tile-button.selected .tile-selected-title {
   font-weight: 700;
+}
+
+/* Remove button */
+.tile-remove-button {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.tile-remove-button:hover {
+  background: #333333;
+  transform: scale(1.1);
+}
+
+.tile-remove-button:active {
+  transform: scale(0.95);
 }
 
 /* Recommendations section */

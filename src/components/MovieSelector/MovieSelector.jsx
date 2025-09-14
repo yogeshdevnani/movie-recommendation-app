@@ -7,6 +7,7 @@ import moviesLikeTheseLogo from "../../assets/moviesLikeTheseLogo.png";
 import MovieRecommendation from "../MovieRecommendation/MovieRecommendation";
 import InfoCard from "../InfoCard/InfoCard";
 import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
+import { warmupBackend } from "../../utils/backendWarmup";
 
 // Import environment variables
 const MOVIE_RECOMMEND_BACKEND = import.meta.env.VITE_MOVIE_RECOMMEND_BACKEND;
@@ -35,6 +36,12 @@ const MovieSelector = () => {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  // Warm up the backend when component mounts
+  React.useEffect(() => {
+    // Call the warmup function when component mounts
+    warmupBackend();
   }, []);
 
   const handleOpenSearch = (index) => {
@@ -220,6 +227,7 @@ const MovieSelector = () => {
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => warmupBackend()}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") performSearch();
                 }}

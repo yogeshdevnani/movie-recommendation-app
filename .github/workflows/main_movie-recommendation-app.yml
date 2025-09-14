@@ -59,6 +59,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0FADFF6E0888499FA389A58E073AD089 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BE50A992D94F4B4B932B94819E1C7970 }}
 
+      - name: Set Web App settings
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: "movie-recommendation-app"
+          app-settings-json: |
+            [
+              {
+                "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+                "value": "false"
+              }
+            ]
+
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3

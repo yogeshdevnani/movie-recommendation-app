@@ -24,6 +24,21 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Base responsive font sizes */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
 }
 
 a {
@@ -41,9 +56,31 @@ main {
   padding: 2rem 1rem;
 }
 
+/* Responsive main container adjustments */
+@media (max-width: 480px) {
+  main {
+    padding: 1rem 0.75rem;
+  }
+}
+
 h1 {
   margin: 0 0 1rem;
   font-size: 2.25rem;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
 }
 
 .navbar {
@@ -57,6 +94,20 @@ h1 {
 
 .navbar a {
   margin-left: 1rem;
+}
+
+/* Responsive navbar for mobile */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .navbar a {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
 }
 
 .navbar-title {
@@ -102,11 +153,22 @@ h1 {
   color: #9ca3af;
 }
 
+/* Responsive button styles */
+@media (max-width: 480px) {
+  .btn-primary {
+    padding: 0.7rem 1.2rem;
+    width: 100%;
+    max-width: 280px;
+    font-size: 0.95rem;
+  }
+}
+
 .button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .button-message {
@@ -144,6 +206,24 @@ h1 {
   transition: transform 0.3s ease;
 }
 
+/* Responsive logo for mobile */
+@media (max-width: 768px) {
+  .logo-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .main-logo {
+    max-height: 90px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-logo {
+    max-height: 70px;
+  }
+}
+
 .main-logo:hover {
   transform: scale(1.05);
 }
@@ -162,11 +242,29 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
+/* Responsive info card for mobile */
+@media (max-width: 480px) {
+  .info-card {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+}
+
 .info-card-content {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
   position: relative;
+}
+
+/* Stack info card content on mobile */
+@media (max-width: 480px) {
+  .info-card-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .info-card-icon {
@@ -257,6 +355,17 @@ h1 {
   display: flex;
   gap: 2.6rem;
   margin: 2.6rem 0 1.95rem;
+  justify-content: center;
+}
+
+/* Responsive tile grid for mobile */
+@media (max-width: 768px) {
+  .tile-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 2rem 0 1.5rem;
+  }
 }
 
 .tile-button {
@@ -315,6 +424,13 @@ h1 {
   padding-top: 20vh;
 }
 
+/* Adjust searchbar position on mobile */
+@media (max-width: 480px) {
+  .searchbar-overlay {
+    padding-top: 10vh;
+  }
+}
+
 .searchbar-dialog {
   width: min(720px, 92vw);
   background: rgba(17, 24, 39, 0.95);
@@ -333,6 +449,14 @@ h1 {
 .searchbar {
   display: flex;
   gap: 0.5rem;
+}
+
+/* Responsive searchbar for mobile */
+@media (max-width: 480px) {
+  .searchbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
 
 .searchbar input[type="text"] {
@@ -354,6 +478,13 @@ h1 {
   cursor: pointer;
 }
 
+@media (max-width: 480px) {
+  .searchbar input[type="text"],
+  .searchbar button {
+    width: 100%;
+  }
+}
+
 /* Results grid */
 .poster-grid {
   display: grid;
@@ -362,6 +493,19 @@ h1 {
   max-height: 60vh;
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+
+/* Responsive poster grid for different screen sizes */
+@media (max-width: 768px) {
+  .poster-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .poster-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .poster-grid::-webkit-scrollbar {

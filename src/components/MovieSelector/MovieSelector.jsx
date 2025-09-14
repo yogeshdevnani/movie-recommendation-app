@@ -30,6 +30,11 @@ const MovieSelector = () => {
   const [recommendationError, setRecommendationError] = React.useState("");
   const [recommendations, setRecommendations] = React.useState([]);
   const [showColdStartMessage, setShowColdStartMessage] = React.useState(false);
+  
+  // Ref for loading animation to scroll to
+  const loadingAnimationRef = React.useRef(null);
+  // Ref for recommendations section to scroll to
+  const recommendationsRef = React.useRef(null);
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -44,6 +49,19 @@ const MovieSelector = () => {
     // Call the warmup function when component mounts
     warmupBackend();
   }, []);
+
+  // Effect to scroll to recommendations when they are loaded
+  React.useEffect(() => {
+    if (recommendations.length > 0 && recommendationsRef.current) {
+      // Small delay to ensure the component has rendered
+      setTimeout(() => {
+        recommendationsRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  }, [recommendations]);
 
   const handleOpenSearch = (index) => {
     setActiveTileIndex(index);
@@ -161,6 +179,16 @@ const MovieSelector = () => {
 
     setIsRecommendationLoading(true);
     setRecommendationError("");
+    
+    // Scroll to the loading animation with a small delay to ensure state updates first
+    setTimeout(() => {
+      if (loadingAnimationRef.current) {
+        loadingAnimationRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }
+    }, 100);
 
     try {
       // Build preferences array with ranking based on tile order
@@ -406,11 +434,13 @@ const MovieSelector = () => {
             {recommendationError}
           </div>
         )}
-        <LoadingAnimation isVisible={isRecommendationLoading} />
+        <div ref={loadingAnimationRef}>
+          <LoadingAnimation isVisible={isRecommendationLoading} />
+        </div>
       </div>
 
       {recommendations.length > 0 && (
-        <div className="recommendations-section">
+        <div className="recommendations-section" ref={recommendationsRef}>
           <h2 className="recommendations-title">Your Movie Recommendations</h2>
           <div className="recommendations-container">
             {recommendations.map((movie, index) => (

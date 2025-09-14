@@ -29,6 +29,7 @@ const MovieSelector = () => {
     React.useState(false);
   const [recommendationError, setRecommendationError] = React.useState("");
   const [recommendations, setRecommendations] = React.useState([]);
+  const [showColdStartMessage, setShowColdStartMessage] = React.useState(false);
 
   React.useEffect(() => {
     const onKeyDown = (e) => {
@@ -60,6 +61,13 @@ const MovieSelector = () => {
     setIsLoading(true);
     setError("");
     setResults([]);
+    setShowColdStartMessage(false);
+
+    // Set up a timer to show cold start message if search takes more than 2 seconds
+    const coldStartTimer = setTimeout(() => {
+      setShowColdStartMessage(true);
+    }, 2000);
+
     try {
       const baseUrl =
         MOVIE_RECOMMEND_BACKEND + "/" + MOVIE_FETCH_BACKEND_ENDPOINT;
@@ -92,6 +100,8 @@ const MovieSelector = () => {
     } catch (e) {
       setError(e?.message || "Failed to fetch movies");
     } finally {
+      clearTimeout(coldStartTimer);
+      setShowColdStartMessage(false);
       setIsLoading(false);
     }
   };
@@ -249,6 +259,17 @@ const MovieSelector = () => {
                 }}
               >
                 {error}
+              </div>
+            )}
+            {isLoading && showColdStartMessage && (
+              <div
+                style={{
+                  color: "#ffd280",
+                  marginTop: "0.5rem",
+                  fontStyle: "italic",
+                }}
+              >
+                Backend is having its morning coffee... (cold start)
               </div>
             )}
             {results.length > 0 && (

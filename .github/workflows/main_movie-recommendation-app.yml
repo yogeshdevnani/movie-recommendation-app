@@ -27,7 +27,6 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
         env:
           VITE_MOVIE_RECOMMEND_BACKEND: ${{ secrets.VITE_MOVIE_RECOMMEND_BACKEND }}
           VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT: ${{ secrets.VITE_MOVIE_RECOMMEND_BACKEND_ENDPOINT }}

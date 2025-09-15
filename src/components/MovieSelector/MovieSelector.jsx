@@ -112,10 +112,16 @@ const MovieSelector = () => {
           ) {
             apiErr =
               'Movie not found! Please ensure correct spelling and enter complete words (e.g., "Bourne Identity" not "Bourn Identity")';
-          } else if (errJson?.Error) {
-            apiErr = errJson.Error;
+          } else {
+            // For any other error, show status code + error message
+            const errorMessage =
+              errJson?.error || errJson?.Error || "API Error";
+            apiErr = `${resp.status} - ${errorMessage}`;
           }
-        } catch (_) {}
+        } catch (_) {
+          // If JSON parsing fails, still show status code
+          apiErr = `${resp.status} - ${apiErr}`;
+        }
         throw new Error(apiErr);
       }
 

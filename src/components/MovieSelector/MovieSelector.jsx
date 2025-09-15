@@ -30,7 +30,7 @@ const MovieSelector = () => {
   const [recommendationError, setRecommendationError] = React.useState("");
   const [recommendations, setRecommendations] = React.useState([]);
   const [showColdStartMessage, setShowColdStartMessage] = React.useState(false);
-  
+
   // Ref for loading animation to scroll to
   const loadingAnimationRef = React.useRef(null);
   // Ref for recommendations section to scroll to
@@ -56,8 +56,8 @@ const MovieSelector = () => {
       // Small delay to ensure the component has rendered
       setTimeout(() => {
         recommendationsRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+          behavior: "smooth",
+          block: "start",
         });
       }, 100);
     }
@@ -102,8 +102,26 @@ const MovieSelector = () => {
         let apiErr = "Network error";
         try {
           const errJson = await resp.json();
-          if (errJson && errJson.Error) apiErr = errJson.Error;
-        } catch (_) {}
+
+          // Check for movie not found error (status 404 and error message)
+          if (
+            resp.status === 404 &&
+            (errJson?.error === "Movie Not Found" ||
+              (errJson?.Error &&
+                errJson.Error.toLowerCase().includes("not found")))
+          ) {
+            apiErr =
+              'Movie not found! Please ensure correct spelling and enter complete words (e.g., "Bourne Identity" not "Bourn Identity")';
+          } else {
+            // For any other error, show status code + error message
+            const errorMessage =
+              errJson?.error || errJson?.Error || "API Error";
+            apiErr = `${resp.status} - ${errorMessage}`;
+          }
+        } catch (_) {
+          // If JSON parsing fails, still show status code
+          apiErr = `${resp.status} - ${apiErr}`;
+        }
         throw new Error(apiErr);
       }
 
@@ -112,7 +130,7 @@ const MovieSelector = () => {
         setResults(data.movies);
       } else {
         setError(
-          'Movie not found!\nMake sure to enter complete words: example "Die Hard" not "Die Har"'
+          'Movie not found!\nPlease ensure correct spelling and enter complete words (e.g., "Bourne Identity" not "Bourn Identity")'
         );
       }
     } catch (e) {
@@ -179,13 +197,13 @@ const MovieSelector = () => {
 
     setIsRecommendationLoading(true);
     setRecommendationError("");
-    
+
     // Scroll to the loading animation with a small delay to ensure state updates first
     setTimeout(() => {
       if (loadingAnimationRef.current) {
-        loadingAnimationRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
+        loadingAnimationRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
         });
       }
     }, 100);

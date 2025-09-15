@@ -58,7 +58,7 @@ const AboutPage = () => {
           <p style={aboutStyles.paragraph}>
             This app was an idea I had been sitting on for a while, and with AI
             tools I finally put it together in very little time while still
-            enjoying the weekend. Deploying it to Azure took some trial and
+            enjoying* the weekend. Deploying it to Azure took some trial and
             error, but that turned into the best part of the learning. It shows
             that with strong fundamentals, curiosity, and the right tools, I can
             build and ship prototypes quickly.
